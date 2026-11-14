@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <title>YASSER TUNEL | Powered by Yasser Tech Solutions</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-2: #f0f4f8;
+      --text: #111827;
+      --muted: #64748b;
+      --line: #e5eaf1;
+      --primary: #079669;
+      --primary-dark: #047857;
+      --primary-soft: #e7f8f1;
+      --navy: #0b1220;
+      --shadow: 0 12px 35px rgba(15, 23, 42, .07);
+      --radius: 20px;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 100px;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    /* STICKY BRAND HEADER */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(226,232,240,.85);
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      padding: 13px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+    }
+    .brand-logo {
+      width: 43px;
+      height: 43px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #079669, #065f46);
+      color: white;
+      font-size: 19px;
+      box-shadow: 0 6px 16px rgba(7,150,105,.2);
+      flex-shrink: 0;
+    }
+    .brand-name {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+      white-space: nowrap;
+    }
+    .brand-sub {
+      color: var(--muted);
+      font-size: 9px;
+      margin-top: 3px;
+      letter-spacing: .7px;
+      font-weight: 700;
+    }
+    .header-status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 11px;
+      background: var(--primary-soft);
+      border-radius: 30px;
+      color: var(--primary-dark);
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 4px rgba(16,185,129,.12);
+    }
+    main {
+      width: min(100% - 30px, 1000px);
+      margin: auto;
+    }
+    /* HERO */
+    .hero {
+      margin-top: 23px;
+      padding: 27px 23px;
+      border-radius: 25px;
+      background: linear-gradient(130deg, #0b1220, #152b36);
+      color: white;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp .65s ease both;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(16,185,129,.13);
+      right: -90px;
+      top: -100px;
+      filter: blur(4px);
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #9ce8cb;
+      background: rgba(16,185,129,.13);
+      border: 1px solid rgba(110,231,183,.18);
+      padding: 7px 11px;
+      border-radius: 30px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .7px;
+    }
+    .hero h1 {
+      font-size: clamp(27px, 6vw, 39px);
+      line-height: 1.15;
+      margin: 19px 0 10px;
+      letter-spacing: -1.5px;
+    }
+    .hero h1 span { color: #6ee7b7; }
+    .hero p {
+      max-width: 440px;
+      color: #cbd5e1;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 21px;
+    }
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 11px;
+      font-weight: 800;
+      transition: transform .25s, box-shadow .25s, background .25s;
+    }
+    .btn:active { transform: scale(.96); }
+    .btn-primary {
+      color: white;
+      background: var(--primary);
+      box-shadow: 0 7px 18px rgba(7,150,105,.2);
+    }
+    .btn-primary:hover {
+      background: #0aa978;
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      color: white;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+    }
+    /* STATISTICS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 17px 0 25px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 15px 10px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(15,23,42,.025);
+      animation: fadeUp .7s ease both;
+    }
+    .stat-card i {
+      color: var(--primary);
+      font-size: 16px;
+      margin-bottom: 9px;
+    }
+    .stat-card strong {
+      display: block;
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .stat-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 9px;
+      margin-top: 5px;
+    }
+    /* SECTION */
+    .section { margin: 26px 0; }
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    .section-heading h2 {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+    .section-heading p {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+    .small-link {
+      border: 0;
+      background: none;
+      color: var(--primary-dark);
+      font-size: 10px;
+      font-weight: 800;
+    }
+    /* SEARCH */
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 0 15px;
+      height: 49px;
+      margin-bottom: 14px;
+      transition: border .2s, box-shadow .2s;
+    }
+    .search-box:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(7,150,105,.08);
+    }
+    .search-box i { color: #94a3b8; }
+    .search-box input {
+      border: 0;
+      outline: 0;
+      width: 100%;
+      background: transparent;
+      font-size: 12px;
+      color: var(--text);
+    }
+    /* FILTERS */
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 0 10px;
+      scrollbar-width: none;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      flex-shrink: 0;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--muted);
+      border-radius: 30px;
+      padding: 9px 15px;
+      font-size: 10px;
+      font-weight: 700;
+      transition: .25s;
+    }
+    .filter-btn.active {
+      color: white;
+      background: var(--navy);
+      border-color: var(--navy);
+      box-shadow: 0 5px 12px rgba(11,18,32,.12);
+    }
+    /* VPN GRID */
+    .vpn-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .vpn-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 14px;
+      min-width: 0;
+      box-shadow: 0 4px 15px rgba(15,23,42,.025);
+      animation: fadeUp .5s ease both;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .vpn-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .vpn-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 7px;
+    }
+    .vpn-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-size: 18px;
+    }
+    .vpn-type {
+      font-size: 8px;
+      font-weight: 800;
+      padding: 6px 8px;
+      border-radius: 20px;
+      background: #ecfdf5;
+      color: #047857;
+    }
+    .vpn-type.paid {
+      background: #fff7ed;
+      color: #c2410c;
+    }
+    .vpn-card h3 {
+      font-size: 12px;
+      margin: 13px 0 6px;
+      overflow-wrap: anywhere;
+    }
+    .vpn-card p {
+      font-size: 9px;
+      color: var(--muted);
+      line-height: 1.6;
+      min-height: 29px;
+    }
+    .vpn-meta {
+      display: flex;
+      gap: 6px;
+      margin: 12px 0;
+      flex-wrap: wrap;
+    }
+    .meta-pill {
+      font-size: 8px;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 5px 7px;
+      border-radius: 6px;
+    }
+    .vpn-card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 5px;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 11px;
+    }
+    .vpn-price {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+    .view-btn {
+      border: 0;
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-size: 9px;
+      font-weight: 800;
+    }
+    /* NOTIFICATIONS */
+    .notification-list { display: grid; gap: 10px; }
+    .notification-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+      animation: fadeUp .5s ease both;
+    }
+    .notification-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: #eff6ff;
+      color: #2563eb;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .notification-card h3 {
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+    .notification-card p {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+    /* ABOUT */
+    .about-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 19px;
+    }
+    .about-card p {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.9;
+    }
+    .powered {
+      margin-top: 14px;
+      padding-top: 13px;
+      border-top: 1px solid var(--line);
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      letter-spacing: .7px;
+    }
+    /* BOTTOM NAV */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-top: 1px solid var(--line);
+      padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
+      display: flex;
+      justify-content: center;
+    }
+    .nav-inner {
+      width: min(100%, 550px);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+    }
+    .nav-item {
+      border: 0;
+      background: transparent;
+      color: #94a3b8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 2px;
+      font-size: 8px;
+      font-weight: 700;
+      transition: .2s;
+    }
+    .nav-item i { font-size: 17px; }
+    .nav-item.active { color: var(--primary-dark); }
+    .nav-item.active i {
+      transform: translateY(-2px);
+    }
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      background: rgba(3,10,20,.55);
+      backdrop-filter: blur(5px);
+      padding: 15px;
+    }
+    .modal.show { display: flex; }
+    .modal-content {
+      width: min(100%, 480px);
+      max-height: 85vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 24px;
+      padding: 22px;
+      animation: modalUp .35s ease both;
+    }
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .modal-top h2 { font-size: 16px; }
+    .close-modal {
+      border: 0;
+      width: 33px;
+      height: 33px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: #475569;
+    }
+    .detail-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 17px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      display: grid;
+      place-items: center;
+      font-size: 25px;
+      margin-bottom: 14px;
+    }
+    .detail-name {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 9px;
+    }
+    .detail-description {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+    .detail-info {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 13px;
+      margin: 17px 0;
+      display: grid;
+      gap: 11px;
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 10px;
+    }
+    .detail-row span:first-child { color: var(--muted); }
+    .detail-row strong { text-align: right; overflow-wrap: anywhere; }
+    .download-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 13px;
+      padding: 15px;
+      background: var(--primary);
+      color: white;
+      font-weight: 800;
+      font-size: 12px;
+      box-shadow: 0 8px 20px rgba(7,150,105,.2);
+    }
+    /* STATES */
+    .state-box {
+      grid-column: 1 / -1;
+      text-align: center;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 30px 15px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+    .state-box i {
+      display: block;
+      color: var(--primary);
+      font-size: 25px;
+      margin-bottom: 12px;
+    }
+    .hidden { display: none !important; }
+    footer {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 9px;
+      padding: 25px 10px 10px;
+      line-height: 1.8;
+    }
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(13px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes modalUp {
+      from { opacity: 0; transform: translateY(35px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (min-width: 700px) {
+      .vpn-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .hero { padding: 42px; margin-top: 30px; }
+      .hero h1 { max-width: 550px; }
+      .stats { gap: 15px; }
+      .stat-card { padding: 20px; }
+      .modal { align-items: center; }
+    }
+    @media (max-width: 360px) {
+      .brand-name { font-size: 14px; }
+      .brand-sub { font-size: 8px; }
+      .header-inner { padding: 11px 12px; }
+      .header-status { font-size: 9px; padding: 7px 8px; }
+      .vpn-grid { gap: 8px; }
+      .vpn-card { padding: 11px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- STICKY HEADER -->
+  <header class="top-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-logo"><i class="fa-solid fa-shield-halved"></i></div>
+        <div>
+          <div class="brand-name">YASSER TUNEL</div>
+          <div class="brand-sub">POWERED BY YASSER TECH SOLUTIONS</div>
+        </div>
+      </div>
+      <div class="header-status">
+        <span class="status-dot"></span>
+        SYSTEM ONLINE
+      </div>
+    </div>
+  </header>
+  <main>
+    <!-- HOME -->
+    <section id="homePage" class="page">
+      <div class="hero">
+        <div class="hero-content">
+          <div class="hero-tag">
+            <i class="fa-solid fa-bolt"></i>
+            YOUR CONNECTION HUB
+          </div>
+          <h1>Explore Your <span>VPN</span> World.</h1>
+          <p>
+            Karibu YASSER TUNEL. Pata VPN configurations na tools
+            zilizowekwa pamoja kwa urahisi.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="scrollToVPN()">
+              <i class="fa-solid fa-compass"></i> Explore VPNs
+            </button>
+            <button class="btn btn-outline" onclick="showPage('notificationsPage')">
+              <i class="fa-regular fa-bell"></i> Updates
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat-card">
+          <i class="fa-solid fa-shield-halved"></i>
+          <strong id="totalVPNs">0</strong>
+          <span>Available VPNs</span>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-unlock"></i>
+          <strong id="freeVPNs">0</strong>
+          <span>Free VPNs</span>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-crown"></i>
+          <strong id="paidVPNs">0</strong>
+          <span>Premium VPNs</span>
+        </div>
+      </div>
+      <section class="section" id="vpnSection">
+        <div class="section-heading">
+          <div>
+            <h2>Discover VPNs</h2>
+            <p>Browse available configurations</p>
+          </div>
+          <button class="small-link" onclick="resetFilters()">View all</button>
+        </div>
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="searchInput" type="search" placeholder="Search VPN name, platform...">
+        </div>
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="free">Free</button>
+          <button class="filter-btn" data-filter="paid">Premium</button>
+          <button class="filter-btn" data-filter="android">Android</button>
+          <button class="filter-btn" data-filter="ios">iOS</button>
+        </div>
+        <div class="vpn-grid" id="vpnGrid">
+          <div class="state-box">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            Loading VPNs...
+          </div>
+        </div>
+      </section>
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <h2>Latest Updates</h2>
+            <p>News and announcements</p>
+          </div>
+          <button class="small-link" onclick="showPage('notificationsPage')">See all</button>
+        </div>
+        <div class="notification-list" id="homeNotifications">
+          <div class="state-box">Loading updates...</div>
+        </div>
+      </section>
+    </section>
+    <!-- FREE PAGE -->
+    <section id="freePage" class="page hidden">
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <h2><i class="fa-solid fa-unlock" style="color:#079669"></i> Free VPNs</h2>
+            <p>Browse available free configurations</p>
+          </div>
+        </div>
+        <div class="vpn-grid" id="freeGrid"></div>
+      </section>
+    </section>
+    <!-- PREMIUM PAGE -->
+    <section id="premiumPage" class="page hidden">
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <h2><i class="fa-solid fa-crown" style="color:#d97706"></i> Premium VPNs</h2>
+            <p>Explore premium configurations</p>
+          </div>
+        </div>
+        <div class="vpn-grid" id="premiumGrid"></div>
+      </section>
+    </section>
+    <!-- NOTIFICATIONS PAGE -->
+    <section id="notificationsPage" class="page hidden">
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <h2><i class="fa-regular fa-bell" style="color:#079669"></i> Notifications</h2>
+            <p>Updates from YASSER TUNEL</p>
+          </div>
+        </div>
+        <div class="notification-list" id="allNotifications"></div>
+      </section>
+    </section>
+    <!-- ABOUT PAGE -->
+    <section id="aboutPage" class="page hidden">
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <h2>About Us</h2>
+            <p>Get to know our platform</p>
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="detail-icon">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h2 style="font-size:19px;margin-bottom:12px;">YASSER TUNEL</h2>
+          <p>
+            YASSER TUNEL ni platform inayokusanya VPN configurations
+            na taarifa zake sehemu moja. Tunajitahidi kufanya huduma
+            zetu ziwe rahisi kutumia kupitia simu na vifaa mbalimbali.
+          </p>
+          <p style="margin-top:12px;">
+            Tafadhali tumia huduma kwa kuzingatia sheria, masharti
+            ya mtandao wako na masharti ya huduma husika.
+          </p>
+          <div class="powered">
+            POWERED BY YASSER TECH SOLUTIONS
+          </div>
+        </div>
+      </section>
+    </section>
+    <footer>
+      © <span id="year"></span> YASSER TUNEL<br>
+      POWERED BY YASSER TECH SOLUTIONS
+    </footer>
+  </main>
+  <!-- BOTTOM NAVIGATION -->
+  <nav class="bottom-nav">
+    <div class="nav-inner">
+      <button class="nav-item active" data-page="homePage">
+        <i class="fa-solid fa-house"></i>
+        Home
+      </button>
+      <button class="nav-item" data-page="freePage">
+        <i class="fa-solid fa-unlock"></i>
+        Free
+      </button>
+      <button class="nav-item" data-page="premiumPage">
+        <i class="fa-solid fa-crown"></i>
+        Premium
+      </button>
+      <button class="nav-item" data-page="notificationsPage">
+        <i class="fa-regular fa-bell"></i>
+        Updates
+      </button>
+      <button class="nav-item" data-page="aboutPage">
+        <i class="fa-solid fa-circle-info"></i>
+        About
+      </button>
+    </div>
+  </nav>
+  <!-- VPN DETAILS MODAL -->
+  <div class="modal" id="vpnModal" role="dialog" aria-modal="true" aria-labelledby="modalName">
+    <div class="modal-content">
+      <div class="modal-top">
+        <h2>VPN Details</h2>
+        <button class="close-modal" id="closeModal" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="detail-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <h2 class="detail-name" id="modalName">VPN Name</h2>
+      <p class="detail-description" id="modalDescription"></p>
+      <div class="detail-info">
+        <div class="detail-row">
+          <span>Platform</span>
+          <strong id="modalPlatform">-</strong>
+        </div>
+        <div class="detail-row">
+          <span>Category</span>
+          <strong id="modalCategory">-</strong>
+        </div>
+        <div class="detail-row">
+          <span>Type</span>
+          <strong id="modalType">-</strong>
+        </div>
+        <div class="detail-row">
+          <span>Price</span>
+          <strong id="modalPrice">-</strong>
+        </div>
+      </div>
+      <button class="download-btn" id="downloadButton">
+        <i class="fa-solid fa-download"></i> Download Now
+      </button>
+    </div>
+  </div>
+  <script>
+    /* ==========================================
+       SUPABASE CONFIGURATION
+       Keep your existing project connection.
+       ========================================== */
+    const SUPABASE_URL = "https://ingqthmfyufkgtsidqfv.supabase.co";
+    const SUPABASE_ANON_KEY =
+      "sb_publishable_zhoDTTBXrr9Rv4f9HwLLkg_nTrpBfWv";
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+    /* ==========================================
+       APP STATE
+       ========================================== */
+    let allVPNs = [];
+    let allNotifications = [];
+    let currentFilter = "all";
+    let selectedVPN = null;
+    const $ = (id) => document.getElementById(id);
+    $("year").textContent = new Date().getFullYear();
+    /* ==========================================
+       SAFE TEXT OUTPUT
+       ========================================== */
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[char]);
+    }
+    function normalize(value) {
+      return String(value ?? "").trim().toLowerCase();
+    }
+    function isPaid(vpn) {
+      const type = normalize(vpn.type);
+      const category = normalize(vpn.category);
+      return (
+        type === "paid" ||
+        type === "premium" ||
+        category === "paid" ||
+        category === "premium"
+      );
+    }
+    function getPrice(vpn) {
+      if (!isPaid(vpn)) return "FREE";
+      if (vpn.price !== null && vpn.price !== undefined && vpn.price !== "") {
+        return String(vpn.price);
+      }
+      return "Premium";
+    }
+    /* ==========================================
+       LOAD VPN DATA
+       ========================================== */
+    async function loadVPNs() {
+      const grid = $("vpnGrid");
+      try {
+        const { data, error } = await supabaseClient
+          .from("vpns")
+          .select("*")
+          .eq("is_active", true)
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        allVPNs = data || [];
+        updateStats();
+        renderAllVPNs();
+      } catch (error) {
+        console.error("VPN loading error:", error);
+        grid.innerHTML = `
+          <div class="state-box">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Failed to load VPNs.<br>
+            Please check your connection or try again.
+          </div>
+        `;
+      }
+    }
+    /* ==========================================
+       STATISTICS
+       ========================================== */
+    function updateStats() {
+      $("totalVPNs").textContent = allVPNs.length;
+      $("freeVPNs").textContent = allVPNs.filter(v => !isPaid(v)).length;
+      $("paidVPNs").textContent = allVPNs.filter(v => isPaid(v)).length;
+    }
+    /* ==========================================
+       VPN CARD
+       ========================================== */
+    function vpnCard(vpn) {
+      const paid = isPaid(vpn);
+      return `
+        <article class="vpn-card">
+          <div class="vpn-card-top">
+            <div class="vpn-icon">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <span class="vpn-type ${paid ? "paid" : ""}">
+              ${paid ? "PREMIUM" : "FREE"}
+            </span>
+          </div>
+          <h3>${escapeHTML(vpn.name)}</h3>
+          <p>${escapeHTML(vpn.description || "VPN configuration available.")}</p>
+          <div class="vpn-meta">
+            <span class="meta-pill">
+              <i class="fa-solid fa-mobile-screen"></i>
+              ${escapeHTML(vpn.platform || "All")}
+            </span>
+            <span class="meta-pill">
+              ${escapeHTML(vpn.category || "VPN")}
+            </span>
+          </div>
+          <div class="vpn-card-bottom">
+            <span class="vpn-price">${escapeHTML(getPrice(vpn))}</span>
+            <button class="view-btn" data-vpn-id="${escapeHTML(vpn.id)}">
+              View Details
+            </button>
+          </div>
+        </article>
+      `;
+    }
+    /* ==========================================
+       RENDER VPN LISTS
+       ========================================== */
+    function renderGrid(elementId, list, emptyMessage) {
+      const element = $(elementId);
+      if (!list.length) {
+        element.innerHTML = `
+          <div class="state-box">
+            <i class="fa-solid fa-folder-open"></i>
+            ${escapeHTML(emptyMessage)}
+          </div>
+        `;
+        return;
+      }
+      element.innerHTML = list.map(vpnCard).join("");
+    }
+    function renderAllVPNs() {
+      const search = normalize($("searchInput").value);
+      let filtered = [...allVPNs];
+      if (currentFilter === "free") {
+        filtered = filtered.filter(v => !isPaid(v));
+      } else if (currentFilter === "paid") {
+        filtered = filtered.filter(v => isPaid(v));
+      } else if (currentFilter === "android") {
+        filtered = filtered.filter(v =>
+          normalize(v.platform).includes("android")
+        );
+      } else if (currentFilter === "ios") {
+        filtered = filtered.filter(v =>
+          normalize(v.platform).includes("ios") ||
+          normalize(v.platform).includes("iphone")
+        );
+      }
+      if (search) {
+        filtered = filtered.filter(v => {
+          const searchable = [
+            v.name,
+            v.platform,
+            v.category,
+            v.description,
+            v.type
+          ].join(" ").toLowerCase();
+          return searchable.includes(search);
+        });
+      }
+      renderGrid("vpnGrid", filtered, "No VPNs found.");
+      renderGrid(
+        "freeGrid",
+        allVPNs.filter(v => !isPaid(v)),
+        "No free VPNs available."
+      );
+      renderGrid(
+        "premiumGrid",
+        allVPNs.filter(v => isPaid(v)),
+        "No premium VPNs available."
+      );
+    }
+    /* ==========================================
+       FILTER BUTTONS
+       ========================================== */
+    document.querySelectorAll(".filter-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(btn =>
+          btn.classList.remove("active")
+        );
+        button.classList.add("active");
+        currentFilter = button.dataset.filter;
+        renderAllVPNs();
+      });
+    });
+    $("searchInput").addEventListener("input", renderAllVPNs);
+    function resetFilters() {
+      currentFilter = "all";
+      $("searchInput").value = "";
+      document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.filter === "all");
+      });
+      renderAllVPNs();
+    }
+    /* ==========================================
+       VPN DETAILS
+       ========================================== */
+    function openVPNDetails(id) {
+      const vpn = allVPNs.find(item => String(item.id) === String(id));
+      if (!vpn) return;
+      selectedVPN = vpn;
+      $("modalName").textContent = vpn.name || "VPN";
+      $("modalDescription").textContent =
+        vpn.description || "No description available.";
+      $("modalPlatform").textContent = vpn.platform || "All";
+      $("modalCategory").textContent = vpn.category || "VPN";
+      $("modalType").textContent = vpn.type || "Free";
+      $("modalPrice").textContent = getPrice(vpn);
+      $("vpnModal").classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
+    function closeVPNModal() {
+      $("vpnModal").classList.remove("show");
+      document.body.style.overflow = "";
+      selectedVPN = null;
+    }
+    $("closeModal").addEventListener("click", closeVPNModal);
+    $("vpnModal").addEventListener("click", event => {
+      if (event.target === $("vpnModal")) {
+        closeVPNModal();
+      }
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeVPNModal();
+    });
+    /* SAFE EVENT DELEGATION */
+    document.addEventListener("click", event => {
+      const button = event.target.closest("[data-vpn-id]");
+      if (button) {
+        openVPNDetails(button.dataset.vpnId);
+      }
+    });
+    /* ==========================================
+       DOWNLOAD
+       ========================================== */
+    $("downloadButton").addEventListener("click", () => {
+      if (!selectedVPN) return;
+      const rawURL = String(selectedVPN.download_url || "").trim();
+      if (!rawURL) {
+        alert("Download link haijawekwa bado.");
+        return;
+      }
+      try {
+        const url = new URL(rawURL);
+        if (url.protocol !== "https:") {
+          alert("Download link is not valid.");
+          return;
+        }
+        window.open(url.href, "_blank", "noopener,noreferrer");
+      } catch {
+        alert("Download link is invalid.");
+      }
+    });
+    /* ==========================================
+       LOAD NOTIFICATIONS
+       ========================================== */
+    async function loadNotifications() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("notifications")
+          .select("*")
+          .eq("is_active", true)
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        allNotifications = data || [];
+        renderNotifications();
+      } catch (error) {
+        console.error("Notification error:", error);
+        $("homeNotifications").innerHTML = `
+          <div class="state-box">
+            Unable to load updates right now.
+          </div>
+        `;
+        $("allNotifications").innerHTML = `
+          <div class="state-box">
+            Unable to load notifications.
+          </div>
+        `;
+      }
+    }
+    function notificationCard(item) {
+      return `
+        <article class="notification-card">
+          <div class="notification-icon">
+            <i class="fa-solid fa-bullhorn"></i>
+          </div>
+          <div>
+            <h3>${escapeHTML(item.title || "Announcement")}</h3>
+            <p>${escapeHTML(item.message || "")}</p>
+          </div>
+        </article>
+      `;
+    }
+    function renderNotifications() {
+      const cards = allNotifications.map(notificationCard).join("");
+      $("homeNotifications").innerHTML = cards
+        ? allNotifications.slice(0, 2).map(notificationCard).join("")
+        : `<div class="state-box">No new updates available.</div>`;
+      $("allNotifications").innerHTML = cards
+        ? cards
+        : `<div class="state-box">No notifications available.</div>`;
+    }
+    /* ==========================================
+       PAGE NAVIGATION
+       ========================================== */
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.add("hidden");
+      });
+      const page = $(pageId);
+      if (page) page.classList.remove("hidden");
+      document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.toggle(
+          "active",
+          item.dataset.page === pageId
+        );
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    document.querySelectorAll(".nav-item").forEach(item => {
+      item.addEventListener("click", () => {
+        showPage(item.dataset.page);
+      });
+    });
+    function scrollToVPN() {
+      $("vpnSection").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+    /* ==========================================
+       INITIALIZE
+       ========================================== */
+    async function initializeApp() {
+      await Promise.all([
+        loadVPNs(),
+        loadNotifications()
+      ]);
+    }
+    initializeApp();
+    /* Refresh content when the user returns to the page */
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        loadVPNs();
+        loadNotifications();
+      }
+    });
+  </script>
+</body>
+</html>
